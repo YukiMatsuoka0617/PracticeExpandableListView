@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -26,11 +27,7 @@ public class MainActivity extends AppCompatActivity
 
         ExpandableListView expandableListView = findViewById(R.id.expandable_list_view);
         MyAdapter adapter = new MyAdapter(this, makers, cars);
-        for(int i = 0; i < adapter.getGroupCount(); i++){
-            if(adapter.getChildrenCount(i) == 0){
 
-            }
-        }
         expandableListView.setAdapter(adapter);
         expandableListView.setOnChildClickListener(this);
         expandableListView.setOnGroupClickListener(this);
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         MyAdapter adapter = (MyAdapter) expandableListView.getExpandableListAdapter();
         if(adapter.getChildrenCount(i) == 0){
             String makerName =  (String)adapter.getGroup(i);
-            Toast.makeText(getApplicationContext(), makerName , Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), makerName , Toast.LENGTH_SHORT).show();
         } else{
             //do nothing
         }
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         MyAdapter adapter = (MyAdapter) expandableListView.getExpandableListAdapter();
         String makerName =  (String)adapter.getGroup(i);
         String carName = (String)adapter.getChild(i, i1);
-        Toast.makeText(getApplicationContext(), makerName + " : " + carName, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), makerName + " : " + carName, Toast.LENGTH_SHORT).show();
         return false;
     }
 
