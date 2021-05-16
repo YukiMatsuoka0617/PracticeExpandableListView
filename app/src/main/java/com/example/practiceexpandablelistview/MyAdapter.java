@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,12 +15,22 @@ public class MyAdapter extends BaseExpandableListAdapter {
     List<List<String>> mListCar;
     Context mContext;
 
-    //コンストラクタ
-    MyAdapter (Context context, List<String> listMaker, List<List<String>> listCar) {
+    MyAdapter(Context context, List<String> listMaker, List<List<String>> listCar) {
         mContext = context;
         mListMaker = listMaker;
         mListCar = listCar;
+
+        addMakerIfNoElement();
     }
+
+    void addMakerIfNoElement(){
+        for (int i = 0; i < mListMaker.size(); i++) {
+            if (mListCar.get(i).size() != 0) {
+                mListCar.get(i).add(0, mListMaker.get(i));
+            }
+        }
+    }
+
     @Override
     public int getGroupCount() {
         return mListMaker.size();
@@ -62,6 +73,11 @@ public class MyAdapter extends BaseExpandableListAdapter {
 
         TextView textView = view.findViewById(R.id.list_item_makers_name);
         textView.setText(mListMaker.get(i));
+
+        ImageView imageView = view.findViewById(R.id.arrow);
+        if (mListCar.get(i).size() != 0) {
+            imageView.setImageResource(R.drawable.ic_under_arrow);
+        } 
         return view;
     }
 

@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity
         implements ExpandableListView.OnGroupClickListener,
         ExpandableListView.OnChildClickListener {
 
+    ExpandableListView expandableListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity
 
         List<List<String>> cars = getChileList();
 
-        ExpandableListView expandableListView = findViewById(R.id.expandable_list_view);
+        expandableListView = findViewById(R.id.expandable_list_view);
         MyAdapter adapter = new MyAdapter(this, makers, cars);
 
         expandableListView.setAdapter(adapter);
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    List<String> getParentList(){
+    List<String> getParentList() {
         List<String> makers = new ArrayList<>();
         makers.add("TOYOTA");
         makers.add("MAZDA");
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         return makers;
     }
 
-    List<List<String>> getChileList(){
+    List<List<String>> getChileList() {
         List<String> cars_toyota = new ArrayList<>();
         cars_toyota.add("CROWN");
         cars_toyota.add("PRIUS");
@@ -66,11 +68,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
         MyAdapter adapter = (MyAdapter) expandableListView.getExpandableListAdapter();
-        if(adapter.getChildrenCount(i) == 0){
-            String makerName =  (String)adapter.getGroup(i);
-            Toast.makeText(getApplicationContext(), makerName , Toast.LENGTH_SHORT).show();
-        } else{
-            //do nothing
+        if (adapter.getChildrenCount(i) == 0) {
+            String makerName = (String) adapter.getGroup(i);
+            Toast.makeText(getApplicationContext(), makerName, Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -78,11 +78,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
         MyAdapter adapter = (MyAdapter) expandableListView.getExpandableListAdapter();
-        String makerName =  (String)adapter.getGroup(i);
-        String carName = (String)adapter.getChild(i, i1);
+        String makerName = (String) adapter.getGroup(i);
+        String carName = (String) adapter.getChild(i, i1);
         Toast.makeText(getApplicationContext(), makerName + " : " + carName, Toast.LENGTH_SHORT).show();
         return false;
     }
-
-
 }
