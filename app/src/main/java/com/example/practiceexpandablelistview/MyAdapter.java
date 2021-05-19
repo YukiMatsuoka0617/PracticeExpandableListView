@@ -19,16 +19,6 @@ public class MyAdapter extends BaseExpandableListAdapter {
         mContext = context;
         mListMaker = listMaker;
         mListCar = listCar;
-
-        addMakerIfNoElement();
-    }
-
-    void addMakerIfNoElement(){
-        for (int i = 0; i < mListMaker.size(); i++) {
-            if (mListCar.get(i).size() != 0) {
-                mListCar.get(i).add(0, mListMaker.get(i));
-            }
-        }
     }
 
     @Override
@@ -77,7 +67,7 @@ public class MyAdapter extends BaseExpandableListAdapter {
         ImageView imageView = view.findViewById(R.id.arrow);
         if (mListCar.get(i).size() != 0) {
             imageView.setImageResource(R.drawable.ic_under_arrow);
-        } 
+        }
         return view;
     }
 
