@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -14,7 +14,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements ExpandableListView.OnGroupClickListener,
-        ExpandableListView.OnChildClickListener {
+        ExpandableListView.OnChildClickListener,
+        View.OnTouchListener {
 
     ExpandableListView expandableListView;
 
@@ -33,18 +34,23 @@ public class MainActivity extends AppCompatActivity
         expandableListView.setAdapter(adapter);
         expandableListView.setOnChildClickListener(this);
         expandableListView.setOnGroupClickListener(this);
+        expandableListView.setOnTouchListener(this);
 
     }
 
     List<String> getParentList() {
         List<String> makers = new ArrayList<>();
+        makers.add("CAR");
         makers.add("TOYOTA");
         makers.add("MAZDA");
         makers.add("HONDA");
+        makers.add("BIKE");
+        makers.add("YAMAHA");
         return makers;
     }
 
     List<List<String>> getChileList() {
+        List<String> header = new ArrayList<>();
         List<String> cars_toyota = new ArrayList<>();
         cars_toyota.add("CROWN");
         cars_toyota.add("PRIUS");
@@ -58,12 +64,20 @@ public class MainActivity extends AppCompatActivity
 //        cars_honda.add("LEGEND");
 //        cars_honda.add("CIVIC");
 //        cars_honda.add("FIT");
+        List<String> bikes_yamaha = new ArrayList<>();
+        bikes_yamaha.add("YZF");
+        bikes_yamaha.add("MT");
         List<List<String>> cars = new ArrayList<>();
+        cars.add(header);
         cars.add(cars_toyota);
         cars.add(cars_mazda);
         cars.add(cars_honda);
+        cars.add(header);
+        cars.add(bikes_yamaha);
         return cars;
     }
+
+    float touchX;
 
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
@@ -72,6 +86,15 @@ public class MainActivity extends AppCompatActivity
             String makerName = (String) adapter.getGroup(i);
             Toast.makeText(getApplicationContext(), makerName, Toast.LENGTH_SHORT).show();
         }
+
+        if (touchX > 950) {
+            //Open
+        } else {
+            String makerName = (String) adapter.getGroup(i);
+            Toast.makeText(getApplicationContext(), makerName, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
         return false;
     }
 
@@ -81,6 +104,17 @@ public class MainActivity extends AppCompatActivity
         String makerName = (String) adapter.getGroup(i);
         String carName = (String) adapter.getChild(i, i1);
         Toast.makeText(getApplicationContext(), makerName + " : " + carName, Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.d("test",""+event.getX()+","+event.getY());
+                touchX = event.getX();
+                break;
+        }
         return false;
     }
 }

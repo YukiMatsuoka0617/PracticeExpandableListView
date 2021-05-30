@@ -59,14 +59,21 @@ public class MyAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_makers_layout, viewGroup, false);
+        if(i == 0 || i == 4) {
+            view = inflater.inflate(R.layout.header_layout, viewGroup, false);
+            TextView textView = view.findViewById(R.id.header_title);
+            textView.setText(mListMaker.get(i));
 
-        TextView textView = view.findViewById(R.id.list_item_makers_name);
-        textView.setText(mListMaker.get(i));
+        } else {
+            view = inflater.inflate(R.layout.list_item_makers_layout, viewGroup, false);
 
-        ImageView imageView = view.findViewById(R.id.arrow);
-        if (mListCar.get(i).size() != 0) {
-            imageView.setImageResource(R.drawable.ic_under_arrow);
+            TextView textView = view.findViewById(R.id.list_item_makers_name);
+            textView.setText(mListMaker.get(i));
+
+            ImageView imageView = view.findViewById(R.id.arrow);
+            if (mListCar.get(i).size() != 0) {
+                imageView.setImageResource(R.drawable.ic_under_arrow);
+            }
         }
         return view;
     }
