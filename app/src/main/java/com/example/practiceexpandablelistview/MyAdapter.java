@@ -5,17 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class MyAdapter extends BaseExpandableListAdapter {
+    ExpandableListView mExpandableListView;
     List<String> mListMaker;
     List<List<String>> mListCar;
     Context mContext;
 
-    MyAdapter(Context context, List<String> listMaker, List<List<String>> listCar) {
+    boolean isExpand = false;
+
+    MyAdapter(ExpandableListView expandableListView, Context context, List<String> listMaker, List<List<String>> listCar) {
+        mExpandableListView = expandableListView;
         mContext = context;
         mListMaker = listMaker;
         mListCar = listCar;
@@ -73,6 +78,19 @@ public class MyAdapter extends BaseExpandableListAdapter {
             ImageView imageView = view.findViewById(R.id.arrow);
             if (mListCar.get(i).size() != 0) {
                 imageView.setImageResource(R.drawable.ic_under_arrow);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mExpandableListView.expandGroup(i);
+                        if(!isExpand) {
+                            mExpandableListView.expandGroup(i);
+                            isExpand = true;
+                        } else {
+                            mExpandableListView.collapseGroup(i);
+                            isExpand = false;
+                        }
+                    }
+                });
             }
         }
         return view;

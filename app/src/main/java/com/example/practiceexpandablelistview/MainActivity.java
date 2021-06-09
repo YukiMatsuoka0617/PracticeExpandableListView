@@ -14,10 +14,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements ExpandableListView.OnGroupClickListener,
-        ExpandableListView.OnChildClickListener,
-        View.OnTouchListener {
+        ExpandableListView.OnChildClickListener{
 
-    ExpandableListView expandableListView;
+        ExpandableListView expandableListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +28,11 @@ public class MainActivity extends AppCompatActivity
         List<List<String>> cars = getChileList();
 
         expandableListView = findViewById(R.id.expandable_list_view);
-        MyAdapter adapter = new MyAdapter(this, makers, cars);
+        MyAdapter adapter = new MyAdapter(expandableListView, this, makers, cars);
 
         expandableListView.setAdapter(adapter);
         expandableListView.setOnChildClickListener(this);
         expandableListView.setOnGroupClickListener(this);
-        expandableListView.setOnTouchListener(this);
-
     }
 
     List<String> getParentList() {
@@ -77,8 +74,6 @@ public class MainActivity extends AppCompatActivity
         return cars;
     }
 
-    float touchX;
-
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
         MyAdapter adapter = (MyAdapter) expandableListView.getExpandableListAdapter();
@@ -87,15 +82,11 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), makerName, Toast.LENGTH_SHORT).show();
         }
 
-        if (touchX > 950) {
-            //Open
-        } else {
-            String makerName = (String) adapter.getGroup(i);
-            Toast.makeText(getApplicationContext(), makerName, Toast.LENGTH_SHORT).show();
-            return true;
-        }
+        String makerName = (String) adapter.getGroup(i);
+        Toast.makeText(getApplicationContext(), makerName, Toast.LENGTH_SHORT).show();
 
-        return false;
+//        return false;
+        return true;
     }
 
     @Override
@@ -104,17 +95,7 @@ public class MainActivity extends AppCompatActivity
         String makerName = (String) adapter.getGroup(i);
         String carName = (String) adapter.getChild(i, i1);
         Toast.makeText(getApplicationContext(), makerName + " : " + carName, Toast.LENGTH_SHORT).show();
-        return false;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                Log.d("test",""+event.getX()+","+event.getY());
-                touchX = event.getX();
-                break;
-        }
-        return false;
+//        return false;
+        return true;
     }
 }
